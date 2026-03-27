@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ideal Societies — Week 2: Can Development Be Measured Fairly?</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FDFAF6;
+  --text: #1A1A1A;
+  --accent-orange: #E8451C;
+  --accent-pink: #E91E90;
+  --accent-yellow: #F5C518;
+  --accent-terra: #C4572A;
+  --accent-olive: #6B7D3A;
+  --surface: #FFFFFF;
+  --border: #E8E0D8;
+  --muted: #8C7E72;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+}
+.gradient-bar { height: 5px; background: linear-gradient(90deg, #E91E90, #E8451C, #F5C518); }
+.container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  margin-top: 1.5rem;
+  color: var(--text);
+}
+.subtitle {
+  font-size: 1.15rem;
+  color: var(--accent-terra);
+  font-weight: 600;
+  margin: 0.3rem 0 0.5rem;
+}
+.intro-text { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 6px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.card h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.step-number {
+  background: var(--accent-orange);
+  color: #fff;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.card p, .card li { margin-bottom: 0.5rem; }
+.card ul { padding-left: 1.2rem; }
+.highlight-box {
+  background: #FFF8ED;
+  border-left: 4px solid var(--accent-yellow);
+  padding: 0.8rem 1rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+.key-question {
+  background: linear-gradient(135deg, rgba(232,69,28,0.08), rgba(233,30,144,0.05));
+  border: 1px solid rgba(232,69,28,0.2);
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-align: center;
+}
+/* Accordion */
+.accordion-header {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  transition: border-color 0.2s;
+}
+.accordion-header:hover, .accordion-header:focus { border-color: var(--accent-orange); outline: none; }
+.accordion-header .chevron { transition: transform 0.3s; font-size: 0.8rem; color: var(--muted); }
+.accordion-header.open .chevron { transform: rotate(180deg); }
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 1rem;
+}
+.accordion-content.open { max-height: 800px; padding: 0.5rem 1rem 1rem; }
+.accordion-content p { font-size: 0.93rem; color: #444; }
+
+/* Country data table */
+.data-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.data-table th {
+  background: var(--accent-terra);
+  color: #fff;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.data-table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tr:nth-child(even) { background: #FAF7F3; }
+.data-table .loss-low { color: var(--accent-olive); font-weight: 600; }
+.data-table .loss-mid { color: var(--accent-terra); font-weight: 600; }
+.data-table .loss-high { color: var(--accent-orange); font-weight: 700; }
+.data-table .loss-severe { color: var(--accent-pink); font-weight: 700; }
+.hidden-cell {
+  background: #F0EDE8;
+  color: #F0EDE8;
+  cursor: pointer;
+  border-radius: 4px;
+  user-select: none;
+  transition: all 0.3s;
+  text-align: center;
+}
+.hidden-cell:hover { background: #E8E0D8; }
+.hidden-cell.revealed { background: transparent; color: inherit; cursor: default; }
+
+/* Quiz */
+.quiz-option {
+  display: block;
+  width: 100%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin: 0.4rem 0;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.95rem;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+.quiz-option:hover { border-color: var(--accent-orange); }
+.quiz-option.correct { border-color: var(--accent-olive); background: #F0F7E8; }
+.quiz-option.incorrect { border-color: #D4443E; background: #FFF0EF; }
+.quiz-option.dimmed { opacity: 0.5; pointer-events: none; }
+.quiz-feedback {
+  margin: 0.5rem 0;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: #F0F7E8; border: 1px solid #B5D89A; }
+.quiz-feedback.incorrect-fb { background: #FFF0EF; border: 1px solid #E8A8A4; }
+
+/* Reflection textarea */
+.reflection-area {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.95rem;
+  resize: vertical;
+  margin: 0.5rem 0;
+}
+.reflection-area:focus { outline: none; border-color: var(--accent-orange); }
+
+/* Links */
+a { color: var(--accent-orange); text-decoration: none; font-weight: 600; }
+a:hover { color: var(--accent-pink); text-decoration: underline; }
+.external-link { display: inline-flex; align-items: center; gap: 4px; }
+.external-link::after { content: '↗'; font-size: 0.8em; }
+
+/* Progress */
+.progress-bar-container {
+  background: #F0EDE8;
+  border-radius: 20px;
+  height: 8px;
+  margin: 1.5rem 0 0.5rem;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
+  border-radius: 20px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.progress-text { font-size: 0.8rem; color: var(--muted); text-align: right; }
+
+/* Tooltip */
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: help;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.info-icon .tooltip {
+  display: none;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  white-space: nowrap;
+  max-width: 280px;
+  white-space: normal;
+  z-index: 10;
+  line-height: 1.4;
+}
+.info-icon:hover .tooltip, .info-icon:focus .tooltip { display: block; }
+
+.btn {
+  display: inline-block;
+  background: var(--accent-orange);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover { background: var(--accent-pink); }
+.btn-small { padding: 0.4rem 1rem; font-size: 0.85rem; }
+
+.footer-note {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 700px) {
+  h1 { font-size: 1.6rem; }
+  .container { padding: 1rem; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.4rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="gradient-bar"></div>
+<div class="container">
+
+<h1>Can Development Be Measured Fairly?</h1>
+<p class="subtitle">Ideal Societies — Week 2 · Asynchronous Lessons</p>
+<p class="intro-text">
+  Last week you explored the Human Development Index and started building a country report. This week, you'll investigate a critical question: <strong>does the HDI actually capture how people experience life in a country?</strong> You'll work through three steps at your own pace. Each step builds on the last.
+</p>
+
+<div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
+<p class="progress-text" id="progressText">0 of 4 steps completed</p>
+
+<!-- ==================== STEP 1 ==================== -->
+<div class="card" id="step1">
+  <h2><span class="step-number">1</span> What the HDI Doesn't Show</h2>
+  <p><span class="badge">Wednesday</span> <span class="badge">~20 min</span></p>
+
+  <p>You already know that the HDI combines three dimensions: <strong>health</strong> (life expectancy), <strong>knowledge</strong> (years of schooling), and <strong>standard of living</strong> (GNI per capita). But there's a problem.</p>
+
+  <div class="key-question">If a country's average income is high, but most of the money belongs to a tiny group of people — does the average really describe life there?</div>
+
+  <p>Think back to the Yemen example from last week: the GNI per capita was $910, but former President Saleh had a net worth of $64 billion while 82% of the population needed aid. The <em>average</em> disguised the reality.</p>
+
+  <p>The United Nations recognised this problem and created a second measurement:</p>
+
+  <button class="accordion-header" onclick="toggleAccordion(this)" aria-expanded="false">
+    <span>What is the Inequality-Adjusted HDI (IHDI)?</span>
+    <span class="chevron">▼</span>
+  </button>
+  <div class="accordion-content">
+    <p>The <strong>IHDI</strong> takes the same three HDI dimensions (health, education, income) and adjusts them based on how <em>unequally</em> they are distributed across the population.</p>
+    <p>If everyone in a country had exactly the same life expectancy, education, and income, the HDI and IHDI would be identical. But the more inequality there is, the lower the IHDI drops compared to the HDI.</p>
+    <p>The difference between the two numbers is called the <strong>"inequality penalty"</strong> — it tells you how much development is being lost to inequality.</p>
+    <div class="highlight-box">
+      <strong>Key idea:</strong> The HDI measures a country's <em>potential</em> human development. The IHDI measures the <em>actual</em> human development experienced by the average person.
+    </div>
+  </div>
+
+  <button class="accordion-header" onclick="toggleAccordion(this)" aria-expanded="false">
+    <span>Where can I find IHDI data?</span>
+    <span class="chevron">▼</span>
+  </button>
+  <div class="accordion-content">
+    <p>The UNDP publishes an interactive IHDI explorer. You can look up any country and see how its score changes when inequality is accounted for.</p>
+    <p><a href="https://hdr.undp.org/inequality-adjusted-human-development-index#/indicies/IHDI" target="_blank" class="external-link">UNDP IHDI Explorer</a> — Use this tool for Step 2.</p>
+    <p><a href="https://ourworldindata.org/grapher/inequality-adjusted-human-development-index" target="_blank" class="external-link">Our World in Data — IHDI Map</a> — A useful visual overview.</p>
+  </div>
+
+  <h3 style="margin-top:1.2rem; font-size:1rem;">Quick Check: Do You Understand IHDI?</h3>
+  <p style="font-size:0.9rem; color:var(--muted);">Answer this before moving on.</p>
+
+  <div id="quiz1">
+    <p style="font-weight:600; margin:0.6rem 0 0.3rem;">Country X has an HDI of 0.850 and an IHDI of 0.620. What does this tell you?</p>
+    <button class="quiz-option" onclick="checkQuiz('q1', this, false)">The country is poorly developed overall.</button>
+    <button class="quiz-option" onclick="checkQuiz('q1', this, false)">The country has a small population.</button>
+    <button class="quiz-option" onclick="checkQuiz('q1', this, true)">The country has high potential development but significant inequality reduces the actual experience for many people.</button>
+    <button class="quiz-option" onclick="checkQuiz('q1', this, false)">The IHDI is unreliable for this country.</button>
+    <div class="quiz-feedback correct-fb" id="q1-correct">That's right. The large gap (0.850 → 0.620 = 27% loss) means that while the country's averages look good, inequality means many people experience much less development than the headline number suggests.</div>
+    <div class="quiz-feedback incorrect-fb" id="q1-incorrect">Not quite. Look at the gap between the two numbers — 0.850 is quite high (good average development), but 0.620 is much lower. What could cause that difference? Think about what "inequality-adjusted" means. Try again.</div>
+  </div>
+
+  <div style="margin-top:1rem; text-align:right;">
+    <button class="btn btn-small" onclick="completeStep(1)">I understand IHDI → Continue to Step 2</button>
+  </div>
+</div>
+
+<!-- ==================== STEP 2 ==================== -->
+<div class="card" id="step2" style="opacity:0.5; pointer-events:none;">
+  <h2><span class="step-number">2</span> Your Country's Inequality Penalty</h2>
+  <p><span class="badge">Wednesday / Thursday</span> <span class="badge">~30 min</span></p>
+
+  <p>Now apply this to the countries from your Week 1 country report. Below is a table with the HDI data you already know. Your job: <strong>look up the IHDI</strong> for each country and calculate the "loss" percentage.</p>
+
+  <div class="highlight-box">
+    <strong>How to calculate loss:</strong> Loss (%) = ((HDI − IHDI) ÷ HDI) × 100. For example, if HDI = 0.970 and IHDI = 0.909, the loss = ((0.970 − 0.909) ÷ 0.970) × 100 = 6.3%
+  </div>
+
+  <p><strong>Click each grey cell</strong> to reveal the answer after you've looked it up yourself. Be honest — try to find it first using the <a href="https://hdr.undp.org/inequality-adjusted-human-development-index#/indicies/IHDI" target="_blank" class="external-link">UNDP tool</a>.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Country</th>
+        <th>HDI (2023)</th>
+        <th>IHDI (2023)
+          <span class="info-icon" tabindex="0">i<span class="tooltip">Click the grey cells to reveal after you've looked them up yourself.</span></span>
+        </th>
+        <th>Loss (%)</th>
+        <th>What This Means</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Norway</strong></td>
+        <td>0.970</td>
+        <td class="hidden-cell" onclick="revealCell(this)">0.909</td>
+        <td class="hidden-cell" onclick="revealCell(this)"><span class="loss-low">6.3%</span></td>
+        <td class="hidden-cell" onclick="revealCell(this)">Very small loss — one of the most equitable societies in the world</td>
+      </tr>
+      <tr>
+        <td><strong>Romania</strong></td>
+        <td>0.845</td>
+        <td class="hidden-cell" onclick="revealCell(this)">0.758</td>
+        <td class="hidden-cell" onclick="revealCell(this)"><span class="loss-mid">10.3%</span></td>
+        <td class="hidden-cell" onclick="revealCell(this)">Notable loss — income and education gaps between urban and rural areas</td>
+      </tr>
+      <tr>
+        <td><strong>Russia</strong></td>
+        <td>0.832</td>
+        <td class="hidden-cell" onclick="revealCell(this)">0.758</td>
+        <td class="hidden-cell" onclick="revealCell(this)"><span class="loss-mid">8.9%</span></td>
+        <td class="hidden-cell" onclick="revealCell(this)">Moderate loss — connects to Week 3's case study on autocracy</td>
+      </tr>
+      <tr>
+        <td><strong>Tonga</strong></td>
+        <td>0.769</td>
+        <td class="hidden-cell" onclick="revealCell(this)">0.682</td>
+        <td class="hidden-cell" onclick="revealCell(this)"><span class="loss-mid">11.3%</span></td>
+        <td class="hidden-cell" onclick="revealCell(this)">Moderate loss — a small island state with limited economic diversity</td>
+      </tr>
+      <tr>
+        <td><strong>Mali</strong></td>
+        <td>0.419</td>
+        <td class="hidden-cell" onclick="revealCell(this)">0.281</td>
+        <td class="hidden-cell" onclick="revealCell(this)"><span class="loss-severe">32.9%</span></td>
+        <td class="hidden-cell" onclick="revealCell(this)">Among the world's largest drops — especially in education access and health</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1rem; font-size:1rem;">Think About It</h3>
+  <p>Look at the pattern. Which countries lose the most when inequality is accounted for? Is there a connection between how wealthy a country is and how much inequality costs it?</p>
+
+  <div style="margin-top:1rem; text-align:right;">
+    <button class="btn btn-small" onclick="completeStep(2)">I've completed the table → Continue to Step 3</button>
+  </div>
+</div>
+
+<!-- ==================== STEP 3 ==================== -->
+<div class="card" id="step3" style="opacity:0.5; pointer-events:none;">
+  <h2><span class="step-number">3</span> The Equity Factor</h2>
+  <p><span class="badge">Thursday</span> <span class="badge">~25 min</span></p>
+
+  <p>Last week, you identified three factors of human development: <strong>Health</strong>, <strong>Knowledge</strong>, and <strong>Standard of Living</strong>. This week you've discovered a fourth:</p>
+
+  <div class="key-question">
+    <span class="badge" style="font-size:0.9rem;">New Factor</span><br>
+    <strong>Equity</strong> — the fair distribution of health, education, and income across a population
+  </div>
+
+  <p>Now you'll add this to your country report and practise a skill you'll need for your summative research paper: <strong>making a claim from evidence</strong>.</p>
+
+  <h3 style="margin-top:1rem; font-size:1rem;">Your Task (this goes in your country report document)</h3>
+
+  <div style="background:#FAF7F3; border-radius:10px; padding:1.2rem; margin:0.8rem 0;">
+    <p><strong>1. Add an "Equity" section</strong> to your Week 1 country report.</p>
+    <p><strong>2. Include the data:</strong> your country's HDI, IHDI, and the percentage loss.</p>
+    <p><strong>3. Find one source</strong> that helps explain <em>why</em> your country has this level of inequality. Is it income inequality? Unequal access to education? Regional health disparities? Record:</p>
+    <ul>
+      <li>What you found</li>
+      <li>Where you found it (URL or title)</li>
+      <li>How it helps explain the IHDI gap</li>
+    </ul>
+    <p><strong>4. Write a claim</strong> (2–3 sentences) answering:</p>
+    <div class="key-question" style="font-size:1rem;">Does the HDI fairly represent life in [your country]?</div>
+  </div>
+
+  <button class="accordion-header" onclick="toggleAccordion(this)" aria-expanded="false">
+    <span>Need help writing your claim? Click for sentence starters</span>
+    <span class="chevron">▼</span>
+  </button>
+  <div class="accordion-content">
+    <p><em>"The HDI [does / does not] fairly represent life in [country] because..."</em></p>
+    <p><em>"While [country]'s HDI of ___ suggests [high/medium/low] development, the IHDI of ___ reveals that..."</em></p>
+    <p><em>"The biggest source of inequality in [country] is ___, which means that the HDI overestimates / underestimates..."</em></p>
+    <div class="highlight-box">
+      <strong>A strong claim</strong> names the data (HDI and IHDI), identifies the cause of the gap, and makes a judgment about whether the HDI is a fair representation. A weak claim just restates the numbers without explaining what they mean.
+    </div>
+  </div>
+
+  <button class="accordion-header" onclick="toggleAccordion(this)" aria-expanded="false">
+    <span>Suggested sources to get started</span>
+    <span class="chevron">▼</span>
+  </button>
+  <div class="accordion-content">
+    <p><a href="https://hdr.undp.org/inequality-adjusted-human-development-index#/indicies/IHDI" target="_blank" class="external-link">UNDP IHDI Data Explorer</a> — Interactive tool, look up any country</p>
+    <p><a href="https://ourworldindata.org/human-development-index" target="_blank" class="external-link">Our World in Data — Human Development Index</a> — Excellent overview with charts</p>
+    <p><a href="https://ourworldindata.org/grapher/inequality-adjusted-human-development-index" target="_blank" class="external-link">Our World in Data — IHDI Map</a> — Visual comparison</p>
+    <p><a href="https://worldpopulationreview.com/country-rankings/hdi-by-country" target="_blank" class="external-link">Data Pandas — HDI by Country</a> — Includes HDI vs IHDI scatter plot</p>
+    <p>You can also search for: <em>[your country] inequality education health income</em> to find articles explaining what drives the gap.</p>
+  </div>
+
+  <div style="margin-top:1.2rem; text-align:right;">
+    <button class="btn btn-small" onclick="completeStep(3)">I've completed Step 3 → Continue to Step 4</button>
+  </div>
+</div>
+
+<!-- ==================== STEP 4 ==================== -->
+<div class="card" id="step4" style="opacity:0.5; pointer-events:none;">
+  <h2><span class="step-number">4</span> Compare and Contrast — What Does the Data Tell Us?</h2>
+  <p><span class="badge">Thursday</span> <span class="badge">~20 min</span></p>
+
+  <p>You've now gathered HDI and IHDI data for five very different countries. In this final step, you'll look <em>across</em> the data to find patterns and ask what the numbers can — and can't — tell us.</p>
+
+  <p>Add a <strong>"Compare and Contrast"</strong> section to your country report document and answer the following:</p>
+
+  <div style="background:#FAF7F3; border-radius:10px; padding:1.2rem; margin:0.8rem 0;">
+    <p><strong>1.</strong> Choose <strong>two countries</strong> from the table that surprised you or interested you. <strong>Describe</strong> the HDI and IHDI data for each one. What do the numbers show about each country's development and inequality?</p>
+
+    <p style="margin-top:0.8rem;"><strong>2.</strong> Romania and Russia end up with almost the same IHDI (0.758), but they started from different HDI scores and lost different percentages. <strong>Explain</strong> what this tells us about how inequality works differently in different contexts.</p>
+
+    <p style="margin-top:0.8rem;"><strong>3.</strong> Norway loses 6.3% to inequality. Mali loses 32.9%. <strong>Identify</strong> one similarity and one difference in <em>what kinds of inequality</em> might cause these losses. Think about whether the loss comes mainly from health, education, or income — you may need to look this up.</p>
+
+    <p style="margin-top:0.8rem;"><strong>4.</strong> Write 2–3 sentences responding to this question:</p>
+    <div class="key-question" style="font-size:1rem;">If two countries have the same IHDI score, does that mean life feels the same in both places? Why or why not?</div>
+  </div>
+
+  <button class="accordion-header" onclick="toggleAccordion(this)" aria-expanded="false">
+    <span>Stuck? Click for thinking prompts</span>
+    <span class="chevron">▼</span>
+  </button>
+  <div class="accordion-content">
+    <p><strong>For question 2:</strong> Think about what it means that Romania has a higher HDI but a bigger percentage loss than Russia. What does that suggest about how equally (or unequally) development is shared in each country?</p>
+    <p><strong>For question 3:</strong> Use the <a href="https://hdr.undp.org/inequality-adjusted-human-development-index#/indicies/IHDI" target="_blank" class="external-link">UNDP IHDI Explorer</a> — it breaks down the loss into health, education, and income separately for each country.</p>
+    <p><strong>For question 4:</strong> Remember that the IHDI is still a single number trying to capture the experience of millions of people. What might it still be hiding?</p>
+  </div>
+
+  <div style="margin-top:1.2rem; text-align:right;">
+    <button class="btn btn-small" onclick="completeStep(4)">I've completed Step 4 ✓</button>
+  </div>
+</div>
+
+<!-- ==================== WHAT'S NEXT ==================== -->
+<div class="card" id="whatsNext" style="display:none; border-left: 4px solid var(--accent-olive);">
+  <h2 style="color: var(--accent-olive);">✓ All Steps Complete</h2>
+  <p>Nice work. You've now explored four factors of an ideal society:</p>
+  <p style="font-size:1.1rem; font-weight:700; margin:0.5rem 0;">
+    Health · Knowledge · Standard of Living · <span style="color:var(--accent-orange);">Equity</span>
+  </p>
+  <p><strong>What's next:</strong> When Mrs. Ø returns next week, you'll investigate whether there's a connection between <em>citizen participation</em> and these development outcomes. The question will be: <strong>"What makes a society fair?"</strong></p>
+  <p style="font-size:0.9rem; color:var(--muted); margin-top:0.8rem;">Make sure your updated country report (with the new Equity section) is saved and accessible. You'll need it.</p>
+</div>
+
+<p class="footer-note">
+  Ideal Societies · MYP3 I&S · Week 2 Asynchronous<br>
+  Data: UNDP Human Development Report 2025 (2023 data)<br>
+  Sources: UNDP, Our World in Data
+</p>
+
+</div>
+<div class="gradient-bar"></div>
+
+<script>
+let stepsCompleted = new Set();
+
+function toggleAccordion(btn) {
+  const content = btn.nextElementSibling;
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+
+function revealCell(cell) {
+  if (!cell.classList.contains('revealed')) {
+    cell.classList.add('revealed');
+    cell.style.color = 'inherit';
+    cell.style.background = 'transparent';
+    cell.style.cursor = 'default';
+  }
+}
+
+function checkQuiz(qId, btn, correct) {
+  const container = btn.parentElement;
+  const options = container.querySelectorAll('.quiz-option');
+  const correctFb = document.getElementById(qId + '-correct');
+  const incorrectFb = document.getElementById(qId + '-incorrect');
+
+  if (correct) {
+    btn.classList.add('correct');
+    options.forEach(o => { if (o !== btn) o.classList.add('dimmed'); });
+    correctFb.classList.add('show');
+    incorrectFb.classList.remove('show');
+  } else {
+    btn.classList.add('incorrect');
+    incorrectFb.classList.add('show');
+    setTimeout(() => {
+      btn.classList.remove('incorrect');
+      incorrectFb.classList.remove('show');
+    }, 3000);
+  }
+}
+
+function completeStep(n) {
+  stepsCompleted.add(n);
+  const total = stepsCompleted.size;
+  document.getElementById('progressBar').style.width = (total / 4 * 100) + '%';
+  document.getElementById('progressText').textContent = total + ' of 4 steps completed';
+
+  // Unlock next step
+  if (n < 4) {
+    const next = document.getElementById('step' + (n + 1));
+    next.style.opacity = '1';
+    next.style.pointerEvents = 'auto';
+    next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  if (total === 4) {
+    document.getElementById('whatsNext').style.display = 'block';
+    document.getElementById('whatsNext').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+</script>
+
+</body>
+</html>
